@@ -1,4 +1,5 @@
 import { marked } from 'marked';
+import TurndownService from 'turndown';
 import { HtmlTableOptions } from '../types/DataConverterTypes';
 import { csvToJson } from './FormatOperations';
 
@@ -107,6 +108,72 @@ export const markdownToHtml = (markdown: string): string => {
     return typeof result === 'string' ? result : String(result);
   } catch (error) {
     throw new Error(`Failed to convert Markdown to HTML: ${error instanceof Error ? error.message : String(error)}`);
+  }
+};
+
+export const htmlToMarkdown = (html: string): string => {
+  try {
+    // Initialize Turndown with GitHub Flavored Markdown settings
+    const turndownService = new TurndownService({
+      headingStyle: 'atx',
+      hr: '---',
+      bulletListMarker: '-',
+      codeBlockStyle: 'fenced',
+      fence: '```',
+      emDelimiter: '_',
+      strongDelimiter: '**',
+      linkStyle: 'inlined',
+      linkReferenceStyle: 'full'
+    });
+
+    // Enable GitHub Flavored Markdown tables
+    turndownService.keep(['del', 's', 'strike']); // Keep strikethrough tags
+    
+    // Add table support
+    turndownService.addRule('table', {
+      filter: 'table',
+      replacement: function (content: string, node: any) {
+        // Extract table content and format as markdown table
+        const rows = content.trim().split('\n').filter(row => row.trim());
+        if (rows.length === 0) return '';
+        
+        // Ensure proper table formatting
+        const formattedRows = rows.map(row => {
+          // Clean up row content
+          const cleanRow = row.replace(/^\||\|$/g, '').trim();
+          return cleanRow ? `| ${cleanRow} |` : '';
+        }).filter(row => row);
+        
+        if (formattedRows.length > 0) {
+          // Add separator after header row if it exists
+          const result = [formattedRows[0]];
+          if (formattedRows.length > 1) {
+            // Create separator based on number of columns
+            const columns = formattedRows[0].split('|').length - 2;
+            const separator = '|' + ' --- |'.repeat(columns);
+            result.push(separator);
+            result.push(...formattedRows.slice(1));
+          }
+          return '\n\n' + result.join('\n') + '\n\n';
+        }
+        return '';
+      }
+    });
+
+    // Handle empty or invalid HTML
+    if (!html || typeof html !== 'string') {
+      return '';
+    }
+
+    // Convert HTML to Markdown
+    const markdown = turndownService.turndown(html);
+    
+    // Clean up excessive whitespace
+    return markdown
+      .replace(/\n{3,}/g, '\n\n') // Replace 3+ newlines with 2
+      .trim();
+  } catch (error) {
+    throw new Error(`Failed to convert HTML to Markdown: ${error instanceof Error ? error.message : String(error)}`);
   }
 };
 

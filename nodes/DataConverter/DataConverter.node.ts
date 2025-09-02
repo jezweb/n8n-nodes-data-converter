@@ -27,8 +27,8 @@ export class DataConverter implements INodeType {
     defaults: {
       name: 'Data Converter',
     },
-    inputs: ['main'],
-    outputs: ['main'],
+    inputs: ['main'] as any,
+    outputs: ['main'] as any,
     credentials: [],
     usableAsTool: true,
     properties: [
@@ -254,10 +254,16 @@ export class DataConverter implements INodeType {
         },
         options: [
           {
-            name: 'JSON to HTML Table',
-            value: 'jsonToHtmlTable',
-            description: 'Create HTML table from JSON',
-            action: 'Create HTML table',
+            name: 'CSV to HTML Table',
+            value: 'csvToHtmlTable',
+            description: 'Convert CSV to HTML table',
+            action: 'Convert CSV to HTML table',
+          },
+          {
+            name: 'HTML to Markdown',
+            value: 'htmlToMarkdown',
+            description: 'Convert HTML to Markdown',
+            action: 'Convert html to markdown',
           },
           {
             name: 'JSON to HTML List',
@@ -266,10 +272,10 @@ export class DataConverter implements INodeType {
             action: 'Create HTML list',
           },
           {
-            name: 'CSV to HTML Table',
-            value: 'csvToHtmlTable',
-            description: 'Convert CSV to HTML table',
-            action: 'Convert CSV to HTML table',
+            name: 'JSON to HTML Table',
+            value: 'jsonToHtmlTable',
+            description: 'Create HTML table from JSON',
+            action: 'Create HTML table',
           },
           {
             name: 'Markdown to HTML',
@@ -721,6 +727,7 @@ export class DataConverter implements INodeType {
               'csvToMarkdown',
               'csvToHtmlTable',
               'markdownToHtml',
+              'htmlToMarkdown',
             ],
           },
         },
@@ -1032,6 +1039,9 @@ export class DataConverter implements INodeType {
           } else if (operation === 'markdownToHtml') {
             const input = this.getNodeParameter('inputData', itemIndex) as string;
             result = HtmlOps.markdownToHtml(input);
+          } else if (operation === 'htmlToMarkdown') {
+            const input = this.getNodeParameter('inputData', itemIndex) as string;
+            result = HtmlOps.htmlToMarkdown(input);
           }
         }
 
