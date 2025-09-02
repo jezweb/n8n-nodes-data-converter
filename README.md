@@ -109,6 +109,7 @@ Output: `"my-file-2024-final-version.pdf"`
 | JSON to CSV | Convert JSON array to CSV | JSON array | CSV string |
 | CSV to JSON | Parse CSV to JSON | CSV string | JSON array |
 | JSON to Markdown | Format JSON as Markdown | JSON | Markdown string |
+| JSON to String | Extract/format JSON content | JSON | String/HTML |
 | CSV to Markdown | Convert CSV to Markdown table | CSV string | Markdown table |
 
 ### HTML Generation
@@ -119,6 +120,7 @@ Output: `"my-file-2024-final-version.pdf"`
 | JSON to HTML List | Create HTML list | JSON array | HTML ul/ol |
 | CSV to HTML Table | Convert CSV to table | CSV string | HTML table |
 | Markdown to HTML | Convert Markdown to HTML | Markdown | HTML string |
+| HTML to Markdown | Convert HTML to Markdown | HTML | Markdown string |
 
 ### Encoding Operations
 
@@ -164,6 +166,31 @@ The **Apply Multiple Operations** feature allows you to chain multiple string tr
 - Remove Special Characters → Convert to snake_case
 - Normalize Whitespace → Slugify → Truncate
 - Clean Filename → Convert to kebab-case → Lower Case
+
+#### JSON to String Operation
+
+The **JSON to String** operation provides flexible ways to extract or format JSON content:
+
+**Extraction Modes:**
+- **Pretty Print** - Format JSON with customizable indentation
+- **Compact** - Minified JSON without whitespace
+- **Extract Field** - Extract specific field values using dot notation (e.g., `data.items[0].name`)
+- **Template** - Format using templates with `{{field}}` placeholders
+
+**Use Cases:**
+- Extract HTML content from JSON fields for direct rendering
+- Generate HTML from JSON using templates
+- Extract specific values from nested JSON structures
+- Format JSON for display or API requirements
+
+**Template Example:**
+```html
+<div class="card">
+  <h2>{{title}}</h2>
+  <p>{{description}}</p>
+  <span>Price: ${{price}}</span>
+</div>
+```
 
 #### Remove Special Characters Options
 

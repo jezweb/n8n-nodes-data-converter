@@ -142,6 +142,83 @@ export const jsonToMarkdown = (json: any, title?: string): string => {
   }
 };
 
+export const jsonToString = (json: any, options: { 
+  mode?: 'pretty' | 'compact' | 'field' | 'template',
+  fieldPath?: string,
+  template?: string,
+  indent?: number 
+} = {}): string => {
+  try {
+    const mode = options.mode || 'pretty';
+    
+    switch (mode) {
+      case 'pretty':
+        // Pretty print JSON with indentation
+        return JSON.stringify(json, null, options.indent || 2);
+      
+      case 'compact':
+        // Compact JSON without whitespace
+        return JSON.stringify(json);
+      
+      case 'field':
+        // Extract specific field value
+        if (!options.fieldPath) {
+          throw new Error('Field path is required for field extraction mode');
+        }
+        const value = getNestedValue(json, options.fieldPath);
+        return value !== undefined ? String(value) : '';
+      
+      case 'template':
+        // Template-based formatting
+        if (!options.template) {
+          throw new Error('Template is required for template mode');
+        }
+        return renderTemplate(json, options.template);
+      
+      default:
+        return JSON.stringify(json, null, 2);
+    }
+  } catch (error) {
+    throw new Error(`Failed to convert JSON to string: ${error instanceof Error ? error.message : String(error)}`);
+  }
+};
+
+// Helper function to get nested value from object using dot notation
+const getNestedValue = (obj: any, path: string): any => {
+  const keys = path.split('.');
+  let value = obj;
+  
+  for (const key of keys) {
+    if (value === null || value === undefined) {
+      return undefined;
+    }
+    // Handle array notation like items[0]
+    const arrayMatch = key.match(/^(.+)\[(\d+)\]$/);
+    if (arrayMatch) {
+      const [, arrayKey, index] = arrayMatch;
+      value = value[arrayKey];
+      if (Array.isArray(value)) {
+        value = value[parseInt(index, 10)];
+      } else {
+        return undefined;
+      }
+    } else {
+      value = value[key];
+    }
+  }
+  
+  return value;
+};
+
+// Helper function to render template with placeholders
+const renderTemplate = (data: any, template: string): string => {
+  // Replace {{field}} placeholders with actual values
+  return template.replace(/\{\{([^}]+)\}\}/g, (match, path) => {
+    const value = getNestedValue(data, path.trim());
+    return value !== undefined ? String(value) : match;
+  });
+};
+
 export const csvToMarkdown = (csv: string, options: CsvOptions = {}): string => {
   try {
     const json = csvToJson(csv, options);

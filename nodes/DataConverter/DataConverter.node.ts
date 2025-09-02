@@ -214,6 +214,12 @@ export class DataConverter implements INodeType {
             action: 'Convert json to markdown',
           },
           {
+            name: 'JSON to String',
+            value: 'jsonToString',
+            description: 'Extract string content from JSON',
+            action: 'Convert JSON to string',
+          },
+          {
             name: 'JSON to XML',
             value: 'jsonToXml',
             description: 'Convert JSON to XML',
@@ -699,6 +705,7 @@ export class DataConverter implements INodeType {
               'jsonToYaml',
               'jsonToCsv',
               'jsonToMarkdown',
+              'jsonToString',
               'jsonToHtmlTable',
               'jsonToHtmlList',
             ],
@@ -764,6 +771,93 @@ export class DataConverter implements INodeType {
         },
         placeholder: 'image/png',
         description: 'MIME type for the data URL',
+      },
+
+      // JSON to String Options
+      {
+        displayName: 'Extraction Mode',
+        name: 'stringExtractionMode',
+        type: 'options',
+        default: 'pretty',
+        displayOptions: {
+          show: {
+            resource: ['format'],
+            operation: ['jsonToString'],
+          },
+        },
+        options: [
+          {
+            name: 'Pretty Print',
+            value: 'pretty',
+            description: 'Format JSON with indentation',
+          },
+          {
+            name: 'Compact',
+            value: 'compact',
+            description: 'Minified JSON without whitespace',
+          },
+          {
+            name: 'Extract Field',
+            value: 'field',
+            description: 'Extract a specific field value',
+          },
+          {
+            name: 'Template',
+            value: 'template',
+            description: 'Format using a template with placeholders',
+          },
+        ],
+        description: 'How to extract or format the JSON content',
+      },
+
+      {
+        displayName: 'Field Path',
+        name: 'fieldPath',
+        type: 'string',
+        default: '',
+        displayOptions: {
+          show: {
+            resource: ['format'],
+            operation: ['jsonToString'],
+            stringExtractionMode: ['field'],
+          },
+        },
+        placeholder: 'data.items[0].name',
+        description: 'Path to the field to extract (supports dot notation and array indices)',
+      },
+
+      {
+        displayName: 'Template',
+        name: 'template',
+        type: 'string',
+        typeOptions: {
+          rows: 5,
+        },
+        default: '',
+        displayOptions: {
+          show: {
+            resource: ['format'],
+            operation: ['jsonToString'],
+            stringExtractionMode: ['template'],
+          },
+        },
+        placeholder: '<h1>{{title}}</h1>\n<p>{{description}}</p>',
+        description: 'Template with {{field}} placeholders for JSON values',
+      },
+
+      {
+        displayName: 'Indent Size',
+        name: 'indentSize',
+        type: 'number',
+        default: 2,
+        displayOptions: {
+          show: {
+            resource: ['format'],
+            operation: ['jsonToString'],
+            stringExtractionMode: ['pretty'],
+          },
+        },
+        description: 'Number of spaces for indentation',
       },
 
       {
@@ -1015,6 +1109,20 @@ export class DataConverter implements INodeType {
           } else if (operation === 'jsonToMarkdown') {
             const input = this.getNodeParameter('inputJson', itemIndex);
             result = FormatOps.jsonToMarkdown(input);
+          } else if (operation === 'jsonToString') {
+            const input = this.getNodeParameter('inputJson', itemIndex);
+            const mode = this.getNodeParameter('stringExtractionMode', itemIndex) as string;
+            const options: any = { mode };
+            
+            if (mode === 'field') {
+              options.fieldPath = this.getNodeParameter('fieldPath', itemIndex) as string;
+            } else if (mode === 'template') {
+              options.template = this.getNodeParameter('template', itemIndex) as string;
+            } else if (mode === 'pretty') {
+              options.indent = this.getNodeParameter('indentSize', itemIndex) as number;
+            }
+            
+            result = FormatOps.jsonToString(input, options);
           } else if (operation === 'csvToMarkdown') {
             const input = this.getNodeParameter('inputData', itemIndex) as string;
             const delimiter = this.getNodeParameter('csvDelimiter', itemIndex) as string;
