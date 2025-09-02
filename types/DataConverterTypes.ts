@@ -1,6 +1,6 @@
 import { INodeExecutionData } from 'n8n-workflow';
 
-export type DataConverterResource = 'base64' | 'binary' | 'format' | 'html' | 'encoding';
+export type DataConverterResource = 'base64' | 'binary' | 'format' | 'html' | 'encoding' | 'string';
 
 export type Base64Operation = 
   | 'textToBase64'
@@ -42,6 +42,22 @@ export type EncodingOperation =
   | 'hexEncode'
   | 'hexDecode';
 
+export type StringOperation =
+  | 'cleanFilename'
+  | 'slugify'
+  | 'toTitleCase'
+  | 'toCamelCase'
+  | 'toKebabCase'
+  | 'toSnakeCase'
+  | 'toUpperCase'
+  | 'toLowerCase'
+  | 'normalizeWhitespace'
+  | 'removeSpecialChars'
+  | 'capitalizeFirst'
+  | 'reverse'
+  | 'truncate'
+  | 'padText';
+
 export interface DataUrlInfo {
   mimeType: string;
   data: string;
@@ -68,4 +84,27 @@ export interface MarkdownOptions {
   flavor?: 'github' | 'standard';
   breaks?: boolean;
   tables?: boolean;
+}
+
+export interface StringOptions {
+  maxLength?: number;
+  replacement?: string;
+  preserveExtension?: boolean;
+  separator?: string;
+  lowercase?: boolean;
+  strict?: boolean;
+  preserveAllCaps?: boolean;
+  collapseSpaces?: boolean;
+  trimLines?: boolean;
+  removeEmptyLines?: boolean;
+  keepSpaces?: boolean;
+  keepNumbers?: boolean;
+  keepBasicPunctuation?: boolean;
+  customAllowed?: string;
+  lowerRest?: boolean;
+  length?: number;
+  suffix?: string;
+  preserveWords?: boolean;
+  padChar?: string;
+  side?: 'left' | 'right' | 'both';
 }

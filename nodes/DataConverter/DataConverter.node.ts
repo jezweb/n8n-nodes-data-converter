@@ -13,6 +13,7 @@ import * as BinaryOps from '../../utils/BinaryOperations';
 import * as FormatOps from '../../utils/FormatOperations';
 import * as HtmlOps from '../../utils/HtmlOperations';
 import * as EncodingOps from '../../utils/EncodingOperations';
+import * as StringOps from '../../utils/StringOperations';
 
 export class DataConverter implements INodeType {
   description: INodeTypeDescription = {
@@ -49,6 +50,11 @@ export class DataConverter implements INodeType {
             description: 'Convert between binary and other formats',
           },
           {
+            name: 'Encoding',
+            value: 'encoding',
+            description: 'URL, HTML entity, and hex encoding/decoding',
+          },
+          {
             name: 'Format',
             value: 'format',
             description: 'Convert between JSON, XML, YAML, CSV, and Markdown',
@@ -59,9 +65,9 @@ export class DataConverter implements INodeType {
             description: 'Generate HTML from data',
           },
           {
-            name: 'Encoding',
-            value: 'encoding',
-            description: 'URL, HTML entity, and hex encoding/decoding',
+            name: 'String',
+            value: 'string',
+            description: 'Text transformations including filename cleaning, case conversion, and formatting',
           },
         ],
         default: 'base64',
@@ -80,10 +86,16 @@ export class DataConverter implements INodeType {
         },
         options: [
           {
-            name: 'Text to Base64',
-            value: 'textToBase64',
-            description: 'Encode text as Base64',
-            action: 'Encode text as base64',
+            name: 'Base64 to Binary',
+            value: 'base64ToBinary',
+            description: 'Decode Base64 to binary data',
+            action: 'Decode base64 to binary',
+          },
+          {
+            name: 'Base64 to JSON',
+            value: 'base64ToJson',
+            description: 'Decode Base64 to JSON object',
+            action: 'Decode base64 to json',
           },
           {
             name: 'Base64 to Text',
@@ -98,10 +110,10 @@ export class DataConverter implements INodeType {
             action: 'Encode binary as base64',
           },
           {
-            name: 'Base64 to Binary',
-            value: 'base64ToBinary',
-            description: 'Decode Base64 to binary data',
-            action: 'Decode base64 to binary',
+            name: 'Create Data URL',
+            value: 'createDataUrl',
+            description: 'Create a data URL from content',
+            action: 'Create data URL',
           },
           {
             name: 'JSON to Base64',
@@ -110,22 +122,16 @@ export class DataConverter implements INodeType {
             action: 'Encode json as base64',
           },
           {
-            name: 'Base64 to JSON',
-            value: 'base64ToJson',
-            description: 'Decode Base64 to JSON object',
-            action: 'Decode base64 to json',
-          },
-          {
-            name: 'Create Data URL',
-            value: 'createDataUrl',
-            description: 'Create a data URL from content',
-            action: 'Create data URL',
-          },
-          {
             name: 'Parse Data URL',
             value: 'parseDataUrl',
             description: 'Extract data from a data URL',
             action: 'Parse data URL',
+          },
+          {
+            name: 'Text to Base64',
+            value: 'textToBase64',
+            description: 'Encode text as Base64',
+            action: 'Encode text as base64',
           },
         ],
         default: 'textToBase64',
@@ -184,28 +190,16 @@ export class DataConverter implements INodeType {
         },
         options: [
           {
-            name: 'JSON to XML',
-            value: 'jsonToXml',
-            description: 'Convert JSON to XML',
-            action: 'Convert JSON to XML',
+            name: 'CSV to JSON',
+            value: 'csvToJson',
+            description: 'Parse CSV to JSON array',
+            action: 'Convert CSV to JSON',
           },
           {
-            name: 'XML to JSON',
-            value: 'xmlToJson',
-            description: 'Parse XML to JSON',
-            action: 'Convert XML to JSON',
-          },
-          {
-            name: 'JSON to YAML',
-            value: 'jsonToYaml',
-            description: 'Convert JSON to YAML',
-            action: 'Convert JSON to YAML',
-          },
-          {
-            name: 'YAML to JSON',
-            value: 'yamlToJson',
-            description: 'Parse YAML to JSON',
-            action: 'Convert YAML to JSON',
+            name: 'CSV to Markdown',
+            value: 'csvToMarkdown',
+            description: 'Convert CSV to Markdown table',
+            action: 'Convert csv to markdown',
           },
           {
             name: 'JSON to CSV',
@@ -214,22 +208,34 @@ export class DataConverter implements INodeType {
             action: 'Convert JSON to CSV',
           },
           {
-            name: 'CSV to JSON',
-            value: 'csvToJson',
-            description: 'Parse CSV to JSON array',
-            action: 'Convert CSV to JSON',
-          },
-          {
             name: 'JSON to Markdown',
             value: 'jsonToMarkdown',
             description: 'Format JSON as Markdown',
             action: 'Convert json to markdown',
           },
           {
-            name: 'CSV to Markdown',
-            value: 'csvToMarkdown',
-            description: 'Convert CSV to Markdown table',
-            action: 'Convert csv to markdown',
+            name: 'JSON to XML',
+            value: 'jsonToXml',
+            description: 'Convert JSON to XML',
+            action: 'Convert JSON to XML',
+          },
+          {
+            name: 'JSON to YAML',
+            value: 'jsonToYaml',
+            description: 'Convert JSON to YAML',
+            action: 'Convert JSON to YAML',
+          },
+          {
+            name: 'XML to JSON',
+            value: 'xmlToJson',
+            description: 'Parse XML to JSON',
+            action: 'Convert XML to JSON',
+          },
+          {
+            name: 'YAML to JSON',
+            value: 'yamlToJson',
+            description: 'Parse YAML to JSON',
+            action: 'Convert YAML to JSON',
           },
         ],
         default: 'jsonToXml',
@@ -288,28 +294,10 @@ export class DataConverter implements INodeType {
         },
         options: [
           {
-            name: 'URL Encode',
-            value: 'urlEncode',
-            description: 'Encode text for URLs',
-            action: 'Url encode text',
-          },
-          {
-            name: 'URL Decode',
-            value: 'urlDecode',
-            description: 'Decode URL-encoded text',
-            action: 'Url decode text',
-          },
-          {
-            name: 'HTML Encode',
-            value: 'htmlEncode',
-            description: 'Encode HTML entities',
-            action: 'Html encode text',
-          },
-          {
-            name: 'HTML Decode',
-            value: 'htmlDecode',
-            description: 'Decode HTML entities',
-            action: 'Html decode text',
+            name: 'Hex Decode',
+            value: 'hexDecode',
+            description: 'Convert from hexadecimal',
+            action: 'Hex decode',
           },
           {
             name: 'Hex Encode',
@@ -318,13 +306,131 @@ export class DataConverter implements INodeType {
             action: 'Hex encode',
           },
           {
-            name: 'Hex Decode',
-            value: 'hexDecode',
-            description: 'Convert from hexadecimal',
-            action: 'Hex decode',
+            name: 'HTML Decode',
+            value: 'htmlDecode',
+            description: 'Decode HTML entities',
+            action: 'Html decode text',
+          },
+          {
+            name: 'HTML Encode',
+            value: 'htmlEncode',
+            description: 'Encode HTML entities',
+            action: 'Html encode text',
+          },
+          {
+            name: 'URL Decode',
+            value: 'urlDecode',
+            description: 'Decode URL-encoded text',
+            action: 'Url decode text',
+          },
+          {
+            name: 'URL Encode',
+            value: 'urlEncode',
+            description: 'Encode text for URLs',
+            action: 'Url encode text',
           },
         ],
         default: 'urlEncode',
+      },
+
+      // String Operations
+      {
+        displayName: 'Operation',
+        name: 'operation',
+        type: 'options',
+        noDataExpression: true,
+        displayOptions: {
+          show: {
+            resource: ['string'],
+          },
+        },
+        options: [
+          {
+            name: 'Camel Case',
+            value: 'toCamelCase',
+            description: 'Convert to camelCase (firstName)',
+            action: 'Convert to camel case',
+          },
+          {
+            name: 'Capitalize First',
+            value: 'capitalizeFirst',
+            description: 'Capitalize only the first character',
+            action: 'Capitalize first character',
+          },
+          {
+            name: 'Clean Filename',
+            value: 'cleanFilename',
+            description: 'Clean filename by removing or replacing unsafe characters',
+            action: 'Clean filename for file systems',
+          },
+          {
+            name: 'Kebab Case',
+            value: 'toKebabCase',
+            description: 'Convert to kebab-case (first-name)',
+            action: 'Convert to kebab case',
+          },
+          {
+            name: 'Lower Case',
+            value: 'toLowerCase',
+            description: 'Convert all characters to lowercase',
+            action: 'Convert to lowercase',
+          },
+          {
+            name: 'Normalize Whitespace',
+            value: 'normalizeWhitespace',
+            description: 'Clean up extra spaces, tabs, and line breaks',
+            action: 'Normalize whitespace',
+          },
+          {
+            name: 'Pad Text',
+            value: 'padText',
+            description: 'Add padding characters to reach specified length',
+            action: 'Pad text',
+          },
+          {
+            name: 'Remove Special Characters',
+            value: 'removeSpecialChars',
+            description: 'Remove special characters, keeping only letters and numbers',
+            action: 'Remove special characters',
+          },
+          {
+            name: 'Reverse Text',
+            value: 'reverse',
+            description: 'Reverse the order of characters',
+            action: 'Reverse text',
+          },
+          {
+            name: 'Slugify',
+            value: 'slugify',
+            description: 'Create URL-friendly slug from text',
+            action: 'Create url friendly slug',
+          },
+          {
+            name: 'Snake Case',
+            value: 'toSnakeCase',
+            description: 'Convert to snake_case (first_name)',
+            action: 'Convert to snake case',
+          },
+          {
+            name: 'Title Case',
+            value: 'toTitleCase',
+            description: 'Convert to Title Case (capitalizing major words)',
+            action: 'Convert to title case',
+          },
+          {
+            name: 'Truncate',
+            value: 'truncate',
+            description: 'Truncate text to specified length with optional suffix',
+            action: 'Truncate text',
+          },
+          {
+            name: 'Upper Case',
+            value: 'toUpperCase',
+            description: 'Convert all characters to uppercase',
+            action: 'Convert to uppercase',
+          },
+        ],
+        default: 'cleanFilename',
       },
 
       // Input Parameters
@@ -336,7 +442,7 @@ export class DataConverter implements INodeType {
         required: true,
         displayOptions: {
           show: {
-            resource: ['base64', 'encoding'],
+            resource: ['base64', 'encoding', 'string'],
             operation: [
               'textToBase64',
               'base64ToText',
@@ -348,6 +454,20 @@ export class DataConverter implements INodeType {
               'htmlDecode',
               'hexEncode',
               'hexDecode',
+              'cleanFilename',
+              'slugify',
+              'toTitleCase',
+              'toCamelCase',
+              'toKebabCase',
+              'toSnakeCase',
+              'toUpperCase',
+              'toLowerCase',
+              'normalizeWhitespace',
+              'removeSpecialChars',
+              'capitalizeFirst',
+              'reverse',
+              'truncate',
+              'padText',
             ],
           },
         },
@@ -729,6 +849,40 @@ export class DataConverter implements INodeType {
             result = EncodingOps.hexEncode(input);
           } else if (operation === 'hexDecode') {
             result = EncodingOps.hexDecodeToString(input);
+          }
+        }
+        
+        else if (resource === 'string') {
+          const input = this.getNodeParameter('inputData', itemIndex) as string;
+          
+          if (operation === 'cleanFilename') {
+            result = StringOps.cleanFilename(input);
+          } else if (operation === 'slugify') {
+            result = StringOps.slugify(input);
+          } else if (operation === 'toTitleCase') {
+            result = StringOps.toTitleCase(input);
+          } else if (operation === 'toCamelCase') {
+            result = StringOps.toCamelCase(input);
+          } else if (operation === 'toKebabCase') {
+            result = StringOps.toKebabCase(input);
+          } else if (operation === 'toSnakeCase') {
+            result = StringOps.toSnakeCase(input);
+          } else if (operation === 'toUpperCase') {
+            result = input.toUpperCase();
+          } else if (operation === 'toLowerCase') {
+            result = input.toLowerCase();
+          } else if (operation === 'normalizeWhitespace') {
+            result = StringOps.normalizeWhitespace(input);
+          } else if (operation === 'removeSpecialChars') {
+            result = StringOps.removeSpecialChars(input);
+          } else if (operation === 'capitalizeFirst') {
+            result = StringOps.capitalizeFirst(input);
+          } else if (operation === 'reverse') {
+            result = StringOps.reverse(input);
+          } else if (operation === 'truncate') {
+            result = StringOps.truncate(input);
+          } else if (operation === 'padText') {
+            result = StringOps.padText(input);
           }
         }
 

@@ -11,6 +11,7 @@ Stop writing Code nodes for common data transformations! This node provides a si
 - ✅ **Format Conversions** - Transform between JSON, XML, YAML, CSV, and Markdown
 - ✅ **HTML Generation** - Create tables, lists, and formatted HTML from data
 - ✅ **Text Encoding** - URL, HTML entity, and hex encoding/decoding
+- ✅ **String Transformations** - Filename cleaning, case conversions, slugification, and text manipulation
 
 ## 📦 Installation
 
@@ -114,6 +115,25 @@ Operation: JSON to HTML Table
 | Hex Encode | Convert to hexadecimal | String/Binary | Hex string |
 | Hex Decode | Convert from hexadecimal | Hex string | String/Binary |
 
+### String Operations
+
+| Operation | Description | Input | Output |
+|-----------|-------------|-------|--------|
+| Clean Filename | Remove unsafe characters from filenames | String | Safe filename |
+| Slugify | Create URL-friendly slug | String | Slug string |
+| Title Case | Convert to Title Case | String | Title Case String |
+| Camel Case | Convert to camelCase | String | camelCase string |
+| Kebab Case | Convert to kebab-case | String | kebab-case string |
+| Snake Case | Convert to snake_case | String | snake_case string |
+| Upper Case | Convert to UPPERCASE | String | UPPERCASE STRING |
+| Lower Case | Convert to lowercase | String | lowercase string |
+| Normalize Whitespace | Clean up extra spaces | String | Normalized string |
+| Remove Special Chars | Keep only letters/numbers | String | Clean string |
+| Capitalize First | Capitalize first letter | String | Capitalized string |
+| Reverse Text | Reverse character order | String | Reversed string |
+| Truncate | Shorten text with suffix | String | Truncated... |
+| Pad Text | Add padding characters | String | Padded string |
+
 ## 💡 Common Use Cases
 
 ### Webhook Data Processing
@@ -134,6 +154,16 @@ Data → Data Converter (JSON to Markdown) → Email/Slack
 ### File Upload Handling
 ```
 Form Data → Data Converter (Base64 to Binary) → Cloud Storage
+```
+
+### Filename Sanitization
+```
+User Input → Data Converter (Clean Filename) → File System
+```
+
+### URL Generation
+```
+Blog Title → Data Converter (Slugify) → URL Path
 ```
 
 ## 🤖 AI Agent Compatibility

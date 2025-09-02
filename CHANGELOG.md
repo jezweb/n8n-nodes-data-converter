@@ -5,6 +5,22 @@ All notable changes to n8n-nodes-data-converter will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.2.0] - 2025-01-02
+
+### Added
+- New String resource with comprehensive text transformation capabilities:
+  - **Filename cleaning**: Remove/replace unsafe characters for file systems
+  - **Case conversions**: Title, Camel, Kebab, Snake, Upper, Lower Case
+  - **Text slugification**: Create URL-friendly slugs from any text
+  - **Whitespace normalization**: Clean up extra spaces, tabs, and line breaks
+  - **Special character removal**: Keep only letters and numbers
+  - **Text manipulation**: Capitalize first, reverse text, truncate, pad text
+- Full AI agent compatibility for all string operations
+
+### Changed
+- Reorganized resource options in alphabetical order for better usability
+- Updated ESLint compliance for n8n node standards
+
 ## [0.1.1] - 2024-09-02
 
 ### Fixed
