@@ -26,8 +26,8 @@ export class DataConverter implements INodeType {
     defaults: {
       name: 'Data Converter',
     },
-    inputs: ['main'],
-    outputs: ['main'],
+    inputs: [NodeConnectionType.Main],
+    outputs: [NodeConnectionType.Main],
     credentials: [],
     usableAsTool: true,
     properties: [
