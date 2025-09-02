@@ -183,6 +183,7 @@ export const removeSpecialChars = (text: string, options: {
   keepSpaces?: boolean;
   keepNumbers?: boolean;
   keepBasicPunctuation?: boolean;
+  keepFilenameChars?: boolean;
   customAllowed?: string;
 } = {}): string => {
   try {
@@ -190,6 +191,7 @@ export const removeSpecialChars = (text: string, options: {
       keepSpaces = true,
       keepNumbers = true,
       keepBasicPunctuation = false,
+      keepFilenameChars = false,
       customAllowed = ''
     } = options;
 
@@ -198,6 +200,7 @@ export const removeSpecialChars = (text: string, options: {
     if (keepNumbers) pattern += '0-9';
     if (keepSpaces) pattern += ' ';
     if (keepBasicPunctuation) pattern += '.,!?;:';
+    if (keepFilenameChars) pattern += '._-';
     if (customAllowed) pattern += customAllowed.replace(/[[\]\\^-]/g, '\\$&');
     
     pattern += ']';

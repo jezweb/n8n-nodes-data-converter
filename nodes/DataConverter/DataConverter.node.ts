@@ -546,7 +546,19 @@ export class DataConverter implements INodeType {
                 placeholder: 'Add Option',
                 default: {},
                 options: [
-                  // Remove special chars options - Keep Numbers comes first alphabetically
+                  // Remove special chars options - Alphabetically sorted
+                  {
+                    displayName: 'Keep Filename Characters',
+                    name: 'keepFilenameChars',
+                    type: 'boolean',
+                    default: false,
+                    displayOptions: {
+                      show: {
+                        '/type': ['removeSpecialChars'],
+                      },
+                    },
+                    description: 'Whether to keep dots, hyphens, and underscores (useful for filenames)',
+                  },
                   {
                     displayName: 'Keep Numbers',
                     name: 'keepNumbers',
@@ -1120,6 +1132,7 @@ export class DataConverter implements INodeType {
                     result = StringOps.removeSpecialChars(result, {
                       keepSpaces: opOptions.keepSpaces !== undefined ? opOptions.keepSpaces : true,
                       keepNumbers: opOptions.keepNumbers !== undefined ? opOptions.keepNumbers : true,
+                      keepFilenameChars: opOptions.keepFilenameChars !== undefined ? opOptions.keepFilenameChars : false,
                     });
                     break;
                   case 'capitalizeFirst':
