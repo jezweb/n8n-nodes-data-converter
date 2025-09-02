@@ -101,11 +101,25 @@ export const markdownToHtml = (markdown: string): string => {
   try {
     marked.setOptions({
       breaks: true,
-      gfm: true
+      gfm: true,
+      pedantic: false
     });
 
-    const result = marked(markdown);
-    return typeof result === 'string' ? result : String(result);
+    let result = marked(markdown);
+    
+    // Ensure result is a string
+    if (typeof result !== 'string') {
+      result = String(result);
+    }
+    
+    // Post-process to fix any literal \n that might appear in the output
+    // This can happen when markdown content is pre-escaped or contains certain patterns
+    result = result
+      .replace(/\\n/g, '\n')  // Replace literal \n with actual newlines
+      .replace(/\n{3,}/g, '\n\n')  // Normalize excessive newlines
+      .trim();
+    
+    return result;
   } catch (error) {
     throw new Error(`Failed to convert Markdown to HTML: ${error instanceof Error ? error.message : String(error)}`);
   }

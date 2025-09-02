@@ -5,6 +5,14 @@ All notable changes to n8n-nodes-data-converter will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.5.1] - 2025-01-02
+
+### Fixed
+- **Markdown to HTML conversion**: Fixed issue where literal `\n` characters were appearing in HTML output
+  - Added post-processing to replace escaped newlines with proper line breaks
+  - Normalized excessive newlines for cleaner HTML output
+  - Updated marked configuration for better markdown parsing
+
 ## [0.5.0] - 2025-01-02
 
 ### Added
