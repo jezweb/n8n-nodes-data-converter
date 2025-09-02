@@ -5,6 +5,25 @@ All notable changes to n8n-nodes-data-converter will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.3.0] - 2025-01-02
+
+### Added
+- **Apply Multiple Operations** feature for String resource:
+  - Chain multiple string operations in a single transformation
+  - Sortable operations list with drag-and-drop reordering
+  - Configurable options per operation (truncate length, padding settings, etc.)
+  - Support for all 14 string operations in sequence
+  - Operations are applied in the order specified by the user
+- Enhanced flexibility for complex text processing pipelines
+- Example use cases:
+  - Remove special characters → Convert to snake_case
+  - Normalize whitespace → Slugify → Truncate
+  - Clean filename → Convert to kebab-case → Pad text
+
+### Changed
+- String resource operations are now more flexible while maintaining backward compatibility
+- All single operations continue to work exactly as before
+
 ## [0.2.0] - 2025-01-02
 
 ### Added

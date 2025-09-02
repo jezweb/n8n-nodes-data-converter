@@ -27,8 +27,8 @@ export class DataConverter implements INodeType {
     defaults: {
       name: 'Data Converter',
     },
-    inputs: [NodeConnectionType.Main],
-    outputs: [NodeConnectionType.Main],
+    inputs: ['main'],
+    outputs: ['main'],
     credentials: [],
     usableAsTool: true,
     properties: [
@@ -346,6 +346,12 @@ export class DataConverter implements INodeType {
         },
         options: [
           {
+            name: 'Apply Multiple Operations',
+            value: 'applyMultiple',
+            description: 'Apply multiple string operations in sequence',
+            action: 'Apply multiple string operations',
+          },
+          {
             name: 'Camel Case',
             value: 'toCamelCase',
             description: 'Convert to camelCase (firstName)',
@@ -433,6 +439,222 @@ export class DataConverter implements INodeType {
         default: 'cleanFilename',
       },
 
+      // String Operations Sequence
+      {
+        displayName: 'Operations',
+        name: 'stringOperations',
+        type: 'fixedCollection',
+        typeOptions: {
+          multipleValues: true,
+          sortable: true,
+        },
+        placeholder: 'Add Operation',
+        default: {},
+        displayOptions: {
+          show: {
+            resource: ['string'],
+            operation: ['applyMultiple'],
+          },
+        },
+        options: [
+          {
+            name: 'operation',
+            displayName: 'Operation',
+            values: [
+              {
+                displayName: 'Operation',
+                name: 'type',
+                type: 'options',
+                default: 'removeSpecialChars',
+                options: [
+                  {
+                    name: 'Camel Case',
+                    value: 'toCamelCase',
+                    description: 'Convert to camelCase',
+                  },
+                  {
+                    name: 'Capitalize First',
+                    value: 'capitalizeFirst',
+                    description: 'Capitalize first character',
+                  },
+                  {
+                    name: 'Clean Filename',
+                    value: 'cleanFilename',
+                    description: 'Clean filename for file systems',
+                  },
+                  {
+                    name: 'Kebab Case',
+                    value: 'toKebabCase',
+                    description: 'Convert to kebab-case',
+                  },
+                  {
+                    name: 'Lower Case',
+                    value: 'toLowerCase',
+                    description: 'Convert to lowercase',
+                  },
+                  {
+                    name: 'Normalize Whitespace',
+                    value: 'normalizeWhitespace',
+                    description: 'Clean up whitespace',
+                  },
+                  {
+                    name: 'Pad Text',
+                    value: 'padText',
+                    description: 'Add padding characters',
+                  },
+                  {
+                    name: 'Remove Special Characters',
+                    value: 'removeSpecialChars',
+                    description: 'Keep only letters and numbers',
+                  },
+                  {
+                    name: 'Reverse Text',
+                    value: 'reverse',
+                    description: 'Reverse character order',
+                  },
+                  {
+                    name: 'Slugify',
+                    value: 'slugify',
+                    description: 'Create URL-friendly slug',
+                  },
+                  {
+                    name: 'Snake Case',
+                    value: 'toSnakeCase',
+                    description: 'Convert to snake_case',
+                  },
+                  {
+                    name: 'Title Case',
+                    value: 'toTitleCase',
+                    description: 'Convert to Title Case',
+                  },
+                  {
+                    name: 'Truncate',
+                    value: 'truncate',
+                    description: 'Truncate to length',
+                  },
+                  {
+                    name: 'Upper Case',
+                    value: 'toUpperCase',
+                    description: 'Convert to uppercase',
+                  },
+                ],
+              },
+              {
+                displayName: 'Options',
+                name: 'options',
+                type: 'collection',
+                placeholder: 'Add Option',
+                default: {},
+                options: [
+                  // Remove special chars options - Keep Numbers comes first alphabetically
+                  {
+                    displayName: 'Keep Numbers',
+                    name: 'keepNumbers',
+                    type: 'boolean',
+                    default: true,
+                    displayOptions: {
+                      show: {
+                        '/type': ['removeSpecialChars'],
+                      },
+                    },
+                    description: 'Whether to keep numbers',
+                  },
+                  {
+                    displayName: 'Keep Spaces',
+                    name: 'keepSpaces',
+                    type: 'boolean',
+                    default: true,
+                    displayOptions: {
+                      show: {
+                        '/type': ['removeSpecialChars'],
+                      },
+                    },
+                    description: 'Whether to keep spaces',
+                  },
+                  // Truncate options - Length comes before Suffix alphabetically
+                  {
+                    displayName: 'Length',
+                    name: 'length',
+                    type: 'number',
+                    default: 100,
+                    displayOptions: {
+                      show: {
+                        '/type': ['truncate'],
+                      },
+                    },
+                    description: 'Maximum length of text',
+                  },
+                  // Pad options - Pad Character comes before Pad Length alphabetically
+                  {
+                    displayName: 'Pad Character',
+                    name: 'padChar',
+                    type: 'string',
+                    default: ' ',
+                    displayOptions: {
+                      show: {
+                        '/type': ['padText'],
+                      },
+                    },
+                    description: 'Character to use for padding',
+                  },
+                  {
+                    displayName: 'Pad Length',
+                    name: 'padLength',
+                    type: 'number',
+                    default: 10,
+                    displayOptions: {
+                      show: {
+                        '/type': ['padText'],
+                      },
+                    },
+                    description: 'Target length after padding',
+                  },
+                  {
+                    displayName: 'Pad Side',
+                    name: 'padSide',
+                    type: 'options',
+                    default: 'right',
+                    displayOptions: {
+                      show: {
+                        '/type': ['padText'],
+                      },
+                    },
+                    options: [
+                      {
+                        name: 'Left',
+                        value: 'left',
+                      },
+                      {
+                        name: 'Right',
+                        value: 'right',
+                      },
+                      {
+                        name: 'Both',
+                        value: 'both',
+                      },
+                    ],
+                    description: 'Which side to add padding',
+                  },
+                  // Suffix comes last alphabetically
+                  {
+                    displayName: 'Suffix',
+                    name: 'suffix',
+                    type: 'string',
+                    default: '...',
+                    displayOptions: {
+                      show: {
+                        '/type': ['truncate'],
+                      },
+                    },
+                    description: 'Text to append when truncated',
+                  },
+                ],
+              },
+            ],
+          },
+        ],
+      },
+
       // Input Parameters
       {
         displayName: 'Input Data',
@@ -468,6 +690,7 @@ export class DataConverter implements INodeType {
               'reverse',
               'truncate',
               'padText',
+              'applyMultiple',
             ],
           },
         },
@@ -855,7 +1078,73 @@ export class DataConverter implements INodeType {
         else if (resource === 'string') {
           const input = this.getNodeParameter('inputData', itemIndex) as string;
           
-          if (operation === 'cleanFilename') {
+          if (operation === 'applyMultiple') {
+            // Process multiple operations in sequence
+            const operations = this.getNodeParameter('stringOperations', itemIndex) as any;
+            result = input;
+            
+            if (operations.operation && Array.isArray(operations.operation)) {
+              for (const op of operations.operation) {
+                const opType = op.type as string;
+                const opOptions = op.options || {};
+                
+                switch (opType) {
+                  case 'cleanFilename':
+                    result = StringOps.cleanFilename(result);
+                    break;
+                  case 'slugify':
+                    result = StringOps.slugify(result);
+                    break;
+                  case 'toTitleCase':
+                    result = StringOps.toTitleCase(result);
+                    break;
+                  case 'toCamelCase':
+                    result = StringOps.toCamelCase(result);
+                    break;
+                  case 'toKebabCase':
+                    result = StringOps.toKebabCase(result);
+                    break;
+                  case 'toSnakeCase':
+                    result = StringOps.toSnakeCase(result);
+                    break;
+                  case 'toUpperCase':
+                    result = result.toUpperCase();
+                    break;
+                  case 'toLowerCase':
+                    result = result.toLowerCase();
+                    break;
+                  case 'normalizeWhitespace':
+                    result = StringOps.normalizeWhitespace(result);
+                    break;
+                  case 'removeSpecialChars':
+                    result = StringOps.removeSpecialChars(result, {
+                      keepSpaces: opOptions.keepSpaces !== undefined ? opOptions.keepSpaces : true,
+                      keepNumbers: opOptions.keepNumbers !== undefined ? opOptions.keepNumbers : true,
+                    });
+                    break;
+                  case 'capitalizeFirst':
+                    result = StringOps.capitalizeFirst(result);
+                    break;
+                  case 'reverse':
+                    result = StringOps.reverse(result);
+                    break;
+                  case 'truncate':
+                    result = StringOps.truncate(result, {
+                      length: opOptions.length || 100,
+                      suffix: opOptions.suffix !== undefined ? opOptions.suffix : '...',
+                    });
+                    break;
+                  case 'padText':
+                    result = StringOps.padText(result, {
+                      length: opOptions.padLength || 10,
+                      padChar: opOptions.padChar || ' ',
+                      side: opOptions.padSide || 'right',
+                    });
+                    break;
+                }
+              }
+            }
+          } else if (operation === 'cleanFilename') {
             result = StringOps.cleanFilename(input);
           } else if (operation === 'slugify') {
             result = StringOps.slugify(input);
