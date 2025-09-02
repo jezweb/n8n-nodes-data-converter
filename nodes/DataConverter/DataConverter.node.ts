@@ -548,6 +548,13 @@ export class DataConverter implements INodeType {
                 options: [
                   // Remove special chars options - Alphabetically sorted
                   {
+                    displayName: 'Keep File Extension',
+                    name: 'keepFileExtension',
+                    type: 'boolean',
+                    default: false,
+                    description: 'Whether to preserve the file extension (last dot and everything after) when removing special characters',
+                  },
+                  {
                     displayName: 'Keep Filename Characters',
                     name: 'keepFilenameChars',
                     type: 'boolean',
@@ -1093,6 +1100,7 @@ export class DataConverter implements INodeType {
                       keepSpaces: opOptions.keepSpaces !== undefined ? opOptions.keepSpaces : true,
                       keepNumbers: opOptions.keepNumbers !== undefined ? opOptions.keepNumbers : true,
                       keepFilenameChars: opOptions.keepFilenameChars !== undefined ? opOptions.keepFilenameChars : false,
+                      keepFileExtension: opOptions.keepFileExtension !== undefined ? opOptions.keepFileExtension : false,
                     });
                     break;
                   case 'capitalizeFirst':

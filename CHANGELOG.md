@@ -5,6 +5,15 @@ All notable changes to n8n-nodes-data-converter will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.3.3] - 2025-01-02
+
+### Added
+- **Keep File Extension**: New option for Remove Special Characters operation to preserve file extensions
+  - Preserves the last dot and everything after it (e.g., `.pdf`, `.xlsx`, `.tar.gz`)
+  - Applies special character removal only to the filename portion
+  - Works in both single operation and "Apply Multiple Operations" modes
+  - Handles edge cases like files without extensions gracefully
+
 ## [0.3.2] - 2025-01-02
 
 ### Fixed

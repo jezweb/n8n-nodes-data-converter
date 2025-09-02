@@ -168,6 +168,7 @@ The **Apply Multiple Operations** feature allows you to chain multiple string tr
 #### Remove Special Characters Options
 
 When using **Remove Special Characters**, you can configure:
+- **Keep File Extension** - Preserves the file extension (last dot and everything after)
 - **Keep Filename Characters** - Preserves dots (.), hyphens (-), and underscores (_) for filenames
 - **Keep Numbers** - Whether to keep numeric characters
 - **Keep Spaces** - Whether to preserve spaces
@@ -242,7 +243,8 @@ This node is fully compatible with AI agents (`usableAsTool: true`). All operati
 
 ## 📝 Changelog
 
-### Latest Updates (v0.3.2)
+### Latest Updates (v0.3.3)
+- **Keep File Extension** option for Remove Special Characters - preserves file extensions when cleaning filenames
 - **Apply Multiple Operations** - Chain multiple string transformations in sequence
 - **Keep Filename Characters** option for Remove Special Characters operation
 - Fixed options display in Apply Multiple Operations mode

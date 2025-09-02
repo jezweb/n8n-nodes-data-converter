@@ -184,6 +184,7 @@ export const removeSpecialChars = (text: string, options: {
   keepNumbers?: boolean;
   keepBasicPunctuation?: boolean;
   keepFilenameChars?: boolean;
+  keepFileExtension?: boolean;
   customAllowed?: string;
 } = {}): string => {
   try {
@@ -192,8 +193,22 @@ export const removeSpecialChars = (text: string, options: {
       keepNumbers = true,
       keepBasicPunctuation = false,
       keepFilenameChars = false,
+      keepFileExtension = false,
       customAllowed = ''
     } = options;
+
+    // If keeping file extension, split at last dot
+    let mainPart = text;
+    let extension = '';
+    
+    if (keepFileExtension) {
+      const lastDotIndex = text.lastIndexOf('.');
+      // Only treat as extension if there's something before and after the dot
+      if (lastDotIndex > 0 && lastDotIndex < text.length - 1) {
+        mainPart = text.substring(0, lastDotIndex);
+        extension = text.substring(lastDotIndex); // includes the dot
+      }
+    }
 
     let pattern = '[^a-zA-Z';
     
@@ -205,7 +220,9 @@ export const removeSpecialChars = (text: string, options: {
     
     pattern += ']';
 
-    return text.replace(new RegExp(pattern, 'g'), '');
+    const cleanedMain = mainPart.replace(new RegExp(pattern, 'g'), '');
+    
+    return cleanedMain + extension;
   } catch (error) {
     throw new Error(`Failed to remove special characters: ${error instanceof Error ? error.message : String(error)}`);
   }
