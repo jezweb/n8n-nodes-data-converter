@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 60 60" width="60" height="60">
+  <!-- Background Circle -->
+  <circle cx="30" cy="30" r="28" fill="#4A90E2" stroke="#2E6DA4" stroke-width="2"/>
+  
+  <!-- Conversion Arrows -->
+  <g transform="translate(30, 30)">
+    <!-- Left Arrow -->
+    <path d="M -15 0 L -8 -4 L -8 -2 L -2 -2 L -2 2 L -8 2 L -8 4 Z" fill="white" opacity="0.9"/>
+    
+    <!-- Right Arrow -->
+    <path d="M 15 0 L 8 4 L 8 2 L 2 2 L 2 -2 L 8 -2 L 8 -4 Z" fill="white" opacity="0.9"/>
+    
+    <!-- Center Circle -->
+    <circle cx="0" cy="0" r="4" fill="white"/>
+    <circle cx="0" cy="0" r="2" fill="#4A90E2"/>
+  </g>
+  
+  <!-- Data Symbols -->
+  <!-- Binary (top left) -->
+  <text x="12" y="18" font-family="monospace" font-size="6" fill="white" font-weight="bold">01</text>
+  
+  <!-- JSON (top right) -->
+  <text x="42" y="18" font-family="monospace" font-size="6" fill="white" font-weight="bold">{}</text>
+  
+  <!-- XML (bottom left) -->
+  <text x="10" y="48" font-family="monospace" font-size="6" fill="white" font-weight="bold">&lt;/&gt;</text>
+  
+  <!-- CSV (bottom right) -->
+  <text x="42" y="48" font-family="monospace" font-size="5" fill="white" font-weight="bold">CSV</text>
+</svg>

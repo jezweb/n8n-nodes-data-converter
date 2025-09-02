@@ -1,0 +1,74 @@
+{
+  "name": "n8n-nodes-data-converter",
+  "version": "0.1.0",
+  "description": "Comprehensive data conversion node for n8n - Handle Base64, Binary, Format conversions (JSON/XML/YAML/CSV), HTML generation, and various encodings",
+  "keywords": [
+    "n8n-community-node-package",
+    "n8n",
+    "data-conversion",
+    "base64",
+    "binary",
+    "json",
+    "xml",
+    "yaml",
+    "csv",
+    "html",
+    "markdown",
+    "encoding",
+    "transform"
+  ],
+  "license": "MIT",
+  "homepage": "https://github.com/jezweb/n8n-nodes-data-converter#readme",
+  "author": {
+    "name": "Jez (Jeremy Dawes)",
+    "email": "jeremy@jezweb.net",
+    "url": "https://www.jezweb.com.au"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/jezweb/n8n-nodes-data-converter.git"
+  },
+  "engines": {
+    "node": ">=18.10"
+  },
+  "main": "index.js",
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc --watch",
+    "format": "prettier nodes utils types --write",
+    "lint": "eslint nodes utils types",
+    "lintfix": "eslint nodes utils types --fix",
+    "prepublishOnly": "npm run build"
+  },
+  "files": [
+    "dist"
+  ],
+  "n8n": {
+    "n8nNodesApiVersion": 1,
+    "credentials": [],
+    "nodes": [
+      "dist/nodes/DataConverter/DataConverter.node.js"
+    ]
+  },
+  "devDependencies": {
+    "@types/js-yaml": "^4.0.9",
+    "@types/node": "^20.11.0",
+    "@types/xml2js": "^0.4.14",
+    "@typescript-eslint/parser": "^6.19.0",
+    "eslint": "^8.56.0",
+    "eslint-plugin-n8n-nodes-base": "^1.16.1",
+    "n8n-workflow": "^1.25.0",
+    "prettier": "^3.2.4",
+    "typescript": "^5.3.3"
+  },
+  "dependencies": {
+    "csv-parse": "^5.5.3",
+    "csv-stringify": "^6.4.5",
+    "js-yaml": "^4.1.0",
+    "marked": "^11.1.1",
+    "xml2js": "^0.6.2"
+  },
+  "peerDependencies": {
+    "n8n-workflow": "*"
+  }
+}
