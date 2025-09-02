@@ -58,6 +58,22 @@ Resource: HTML
 Operation: JSON to HTML Table
 ```
 
+### Example 4: Chain Multiple String Operations
+
+Clean and format filenames in one step:
+
+```
+Resource: String
+Operation: Apply Multiple Operations
+Operations:
+  1. Remove Special Characters (Keep Filename Characters: ON)
+  2. Convert to kebab-case
+  3. Convert to lowercase
+```
+
+Input: `"My File (2024) - FINAL VERSION.pdf"`
+Output: `"my-file-2024-final-version.pdf"`
+
 ## 📚 Operations Reference
 
 ### Base64 Operations
@@ -119,6 +135,7 @@ Operation: JSON to HTML Table
 
 | Operation | Description | Input | Output |
 |-----------|-------------|-------|--------|
+| Apply Multiple Operations | Chain multiple string operations in sequence | String | Transformed string |
 | Clean Filename | Remove unsafe characters from filenames | String | Safe filename |
 | Slugify | Create URL-friendly slug | String | Slug string |
 | Title Case | Convert to Title Case | String | Title Case String |
@@ -128,11 +145,32 @@ Operation: JSON to HTML Table
 | Upper Case | Convert to UPPERCASE | String | UPPERCASE STRING |
 | Lower Case | Convert to lowercase | String | lowercase string |
 | Normalize Whitespace | Clean up extra spaces | String | Normalized string |
-| Remove Special Chars | Keep only letters/numbers | String | Clean string |
+| Remove Special Chars | Keep only letters/numbers (with options) | String | Clean string |
 | Capitalize First | Capitalize first letter | String | Capitalized string |
 | Reverse Text | Reverse character order | String | Reversed string |
 | Truncate | Shorten text with suffix | String | Truncated... |
 | Pad Text | Add padding characters | String | Padded string |
+
+#### Apply Multiple Operations
+
+The **Apply Multiple Operations** feature allows you to chain multiple string transformations in a single operation:
+
+- **Sortable operations list** - Drag and drop to reorder operations
+- **All operations supported** - Combine any string operations
+- **Configurable options** - Each operation can have its own settings
+- **Sequential processing** - Operations are applied in the order specified
+
+**Example combinations:**
+- Remove Special Characters → Convert to snake_case
+- Normalize Whitespace → Slugify → Truncate
+- Clean Filename → Convert to kebab-case → Lower Case
+
+#### Remove Special Characters Options
+
+When using **Remove Special Characters**, you can configure:
+- **Keep Filename Characters** - Preserves dots (.), hyphens (-), and underscores (_) for filenames
+- **Keep Numbers** - Whether to keep numeric characters
+- **Keep Spaces** - Whether to preserve spaces
 
 ## 💡 Common Use Cases
 
@@ -204,7 +242,12 @@ This node is fully compatible with AI agents (`usableAsTool: true`). All operati
 
 ## 📝 Changelog
 
-See [CHANGELOG.md](CHANGELOG.md) for version history.
+### Latest Updates (v0.3.2)
+- **Apply Multiple Operations** - Chain multiple string transformations in sequence
+- **Keep Filename Characters** option for Remove Special Characters operation
+- Fixed options display in Apply Multiple Operations mode
+
+See [CHANGELOG.md](CHANGELOG.md) for full version history.
 
 ## 🤝 Contributing
 
