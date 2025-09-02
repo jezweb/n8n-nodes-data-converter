@@ -552,36 +552,21 @@ export class DataConverter implements INodeType {
                     name: 'keepFilenameChars',
                     type: 'boolean',
                     default: false,
-                    displayOptions: {
-                      show: {
-                        '/type': ['removeSpecialChars'],
-                      },
-                    },
-                    description: 'Whether to keep dots, hyphens, and underscores (useful for filenames)',
+                    description: 'Whether to keep dots, hyphens, and underscores (useful for filenames with Remove Special Characters)',
                   },
                   {
                     displayName: 'Keep Numbers',
                     name: 'keepNumbers',
                     type: 'boolean',
                     default: true,
-                    displayOptions: {
-                      show: {
-                        '/type': ['removeSpecialChars'],
-                      },
-                    },
-                    description: 'Whether to keep numbers',
+                    description: 'Whether to keep numbers (for Remove Special Characters)',
                   },
                   {
                     displayName: 'Keep Spaces',
                     name: 'keepSpaces',
                     type: 'boolean',
                     default: true,
-                    displayOptions: {
-                      show: {
-                        '/type': ['removeSpecialChars'],
-                      },
-                    },
-                    description: 'Whether to keep spaces',
+                    description: 'Whether to keep spaces (for Remove Special Characters)',
                   },
                   // Truncate options - Length comes before Suffix alphabetically
                   {
@@ -589,12 +574,7 @@ export class DataConverter implements INodeType {
                     name: 'length',
                     type: 'number',
                     default: 100,
-                    displayOptions: {
-                      show: {
-                        '/type': ['truncate'],
-                      },
-                    },
-                    description: 'Maximum length of text',
+                    description: 'Maximum length of text (for Truncate)',
                   },
                   // Pad options - Pad Character comes before Pad Length alphabetically
                   {
@@ -602,35 +582,20 @@ export class DataConverter implements INodeType {
                     name: 'padChar',
                     type: 'string',
                     default: ' ',
-                    displayOptions: {
-                      show: {
-                        '/type': ['padText'],
-                      },
-                    },
-                    description: 'Character to use for padding',
+                    description: 'Character to use for padding (for Pad Text)',
                   },
                   {
                     displayName: 'Pad Length',
                     name: 'padLength',
                     type: 'number',
                     default: 10,
-                    displayOptions: {
-                      show: {
-                        '/type': ['padText'],
-                      },
-                    },
-                    description: 'Target length after padding',
+                    description: 'Target length after padding (for Pad Text)',
                   },
                   {
                     displayName: 'Pad Side',
                     name: 'padSide',
                     type: 'options',
                     default: 'right',
-                    displayOptions: {
-                      show: {
-                        '/type': ['padText'],
-                      },
-                    },
                     options: [
                       {
                         name: 'Left',
@@ -645,7 +610,7 @@ export class DataConverter implements INodeType {
                         value: 'both',
                       },
                     ],
-                    description: 'Which side to add padding',
+                    description: 'Which side to add padding (for Pad Text)',
                   },
                   // Suffix comes last alphabetically
                   {
@@ -653,12 +618,7 @@ export class DataConverter implements INodeType {
                     name: 'suffix',
                     type: 'string',
                     default: '...',
-                    displayOptions: {
-                      show: {
-                        '/type': ['truncate'],
-                      },
-                    },
-                    description: 'Text to append when truncated',
+                    description: 'Text to append when truncated (for Truncate)',
                   },
                 ],
               },
