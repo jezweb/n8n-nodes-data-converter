@@ -5,6 +5,15 @@ All notable changes to n8n-nodes-data-converter will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.6.1] - 2025-01-03
+
+### Enhanced
+- **Parse Email Address operation**: Now also splits name into firstName and lastName
+  - Single name → firstName only
+  - Two parts → firstName and lastName
+  - Multiple parts → first part as firstName, rest as lastName
+  - Maintains backward compatibility with full name field
+
 ## [0.6.0] - 2025-01-03
 
 ### Added

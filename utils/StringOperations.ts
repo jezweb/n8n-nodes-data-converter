@@ -1,5 +1,7 @@
 export const parseEmailAddress = (emailString: string): {
   name?: string;
+  firstName?: string;
+  lastName?: string;
   email?: string;
   domain?: string;
   original: string;
@@ -60,8 +62,30 @@ export const parseEmailAddress = (emailString: string): {
       }
     }
     
+    // Split name into first and last name if we have a name
+    let firstName: string | undefined;
+    let lastName: string | undefined;
+    
+    if (name) {
+      const nameParts = name.trim().split(/\s+/);
+      if (nameParts.length === 1) {
+        // Only one name part - treat as first name
+        firstName = nameParts[0];
+      } else if (nameParts.length === 2) {
+        // Standard first and last name
+        firstName = nameParts[0];
+        lastName = nameParts[1];
+      } else if (nameParts.length > 2) {
+        // Multiple parts - treat first as firstName, rest as lastName
+        firstName = nameParts[0];
+        lastName = nameParts.slice(1).join(' ');
+      }
+    }
+    
     return {
       name: name || undefined,
+      firstName: firstName || undefined,
+      lastName: lastName || undefined,
       email: email || undefined,
       domain: domain || undefined,
       original
