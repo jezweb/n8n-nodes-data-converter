@@ -5,6 +5,15 @@ All notable changes to n8n-nodes-data-converter will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.6.0] - 2025-01-03
+
+### Added
+- **Parse Email Address operation**: New operation in String resource for parsing email strings
+  - Extracts name, email address, and domain from various email formats
+  - Supports formats: `"Name" <email@domain.com>`, `Name <email@domain.com>`, `<email@domain.com>`, `email@domain.com`
+  - Returns structured object with name, email, domain, and original string
+  - Perfect for processing IMAP email data and contact information
+
 ## [0.5.1] - 2025-01-02
 
 ### Fixed

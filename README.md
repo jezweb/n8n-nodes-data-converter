@@ -147,6 +147,7 @@ Output: `"my-file-2024-final-version.pdf"`
 | Upper Case | Convert to UPPERCASE | String | UPPERCASE STRING |
 | Lower Case | Convert to lowercase | String | lowercase string |
 | Normalize Whitespace | Clean up extra spaces | String | Normalized string |
+| Parse Email Address | Extract name, email, domain from email strings | String | Object with parts |
 | Remove Special Chars | Keep only letters/numbers (with options) | String | Clean string |
 | Capitalize First | Capitalize first letter | String | Capitalized string |
 | Reverse Text | Reverse character order | String | Reversed string |

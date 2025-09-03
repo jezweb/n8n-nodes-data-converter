@@ -406,6 +406,12 @@ export class DataConverter implements INodeType {
             action: 'Pad text',
           },
           {
+            name: 'Parse Email Address',
+            value: 'parseEmailAddress',
+            description: 'Extract name, email, and domain from email strings',
+            action: 'Parse email address',
+          },
+          {
             name: 'Remove Special Characters',
             value: 'removeSpecialChars',
             description: 'Remove special characters, keeping only letters and numbers',
@@ -513,6 +519,11 @@ export class DataConverter implements INodeType {
                     name: 'Pad Text',
                     value: 'padText',
                     description: 'Add padding characters',
+                  },
+                  {
+                    name: 'Parse Email Address',
+                    value: 'parseEmailAddress',
+                    description: 'Extract name and email parts',
                   },
                   {
                     name: 'Remove Special Characters',
@@ -681,6 +692,7 @@ export class DataConverter implements INodeType {
               'reverse',
               'truncate',
               'padText',
+              'parseEmailAddress',
               'applyMultiple',
             ],
           },
@@ -1240,6 +1252,11 @@ export class DataConverter implements INodeType {
                       side: opOptions.padSide || 'right',
                     });
                     break;
+                  case 'parseEmailAddress':
+                    // For parse email, we need to return the full result object
+                    const parsed = StringOps.parseEmailAddress(result);
+                    result = parsed; // This will return the full object
+                    break;
                 }
               }
             }
@@ -1271,6 +1288,8 @@ export class DataConverter implements INodeType {
             result = StringOps.truncate(input);
           } else if (operation === 'padText') {
             result = StringOps.padText(input);
+          } else if (operation === 'parseEmailAddress') {
+            result = StringOps.parseEmailAddress(input);
           }
         }
 

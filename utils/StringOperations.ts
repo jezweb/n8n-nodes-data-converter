@@ -1,3 +1,80 @@
+export const parseEmailAddress = (emailString: string): {
+  name?: string;
+  email?: string;
+  domain?: string;
+  original: string;
+} => {
+  try {
+    const original = emailString.trim();
+    
+    // Regular expressions for different email formats
+    // Format 1: "Name" <email@domain.com>
+    // Format 2: Name <email@domain.com>
+    // Format 3: email@domain.com
+    // Format 4: <email@domain.com>
+    
+    // Pattern for email with name in quotes: "Name" <email>
+    const quotedNamePattern = /^"([^"]+)"\s*<([^>]+)>$/;
+    // Pattern for email with name without quotes: Name <email>
+    const unquotedNamePattern = /^([^<]+)\s*<([^>]+)>$/;
+    // Pattern for email in angle brackets only: <email>
+    const bracketOnlyPattern = /^<([^>]+)>$/;
+    // Pattern for plain email
+    const plainEmailPattern = /^([^\s@]+@[^\s@]+\.[^\s@]+)$/;
+    
+    let name: string | undefined;
+    let email: string | undefined;
+    let domain: string | undefined;
+    
+    // Try to match different formats
+    const quotedMatch = original.match(quotedNamePattern);
+    if (quotedMatch) {
+      name = quotedMatch[1].trim();
+      email = quotedMatch[2].trim();
+    } else {
+      const unquotedMatch = original.match(unquotedNamePattern);
+      if (unquotedMatch) {
+        name = unquotedMatch[1].trim();
+        email = unquotedMatch[2].trim();
+      } else {
+        const bracketMatch = original.match(bracketOnlyPattern);
+        if (bracketMatch) {
+          email = bracketMatch[1].trim();
+        } else {
+          const plainMatch = original.match(plainEmailPattern);
+          if (plainMatch) {
+            email = plainMatch[1].trim();
+          } else {
+            // If no pattern matches, treat the whole string as email
+            email = original;
+          }
+        }
+      }
+    }
+    
+    // Extract domain from email if we have a valid email
+    if (email && email.includes('@')) {
+      const parts = email.split('@');
+      if (parts.length === 2) {
+        domain = parts[1];
+      }
+    }
+    
+    return {
+      name: name || undefined,
+      email: email || undefined,
+      domain: domain || undefined,
+      original
+    };
+  } catch (error) {
+    // Return original string if parsing fails
+    return {
+      original: emailString,
+      email: emailString
+    };
+  }
+};
+
 export const cleanFilename = (filename: string, options: {
   maxLength?: number;
   replacement?: string;
